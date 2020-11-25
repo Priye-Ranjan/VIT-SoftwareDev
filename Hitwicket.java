@@ -78,11 +78,11 @@ class HitWicket{
 
         ArrayList<String> l3=new ArrayList<>();
         l3.add("Defend");l3.add("Run");l3.add("Cover Drive");l3.add("Pull");l3.add("Helicopter");
-        shotsPossible.put("Out-Swinger",l3);
+        shotsPossible.put("Out-swinger",l3);
 
         ArrayList<String> l4=new ArrayList<>();
         l4.add("Defend");l4.add("Run");l4.add("On Drive");l4.add("Pull");l4.add("Hook");
-        shotsPossible.put("In-Swinger",l4);
+        shotsPossible.put("In-swinger",l4);
 
         ArrayList<String> l5=new ArrayList<>();
         l5.add("Defend");l5.add("Run");l5.add("Cover Drive");l5.add("Pull");l5.add("Hook");
@@ -90,7 +90,7 @@ class HitWicket{
 
         ArrayList<String> l6=new ArrayList<>();
         l6.add("Defend");l6.add("Run");l6.add("On Drive");l6.add("Pull");l6.add("Helicopter");
-        shotsPossible.put("Slower Ball",l6);
+        shotsPossible.put("Slower-ball",l6);
 
         //Dummy Data for Shots Possible  End      
 
@@ -147,6 +147,9 @@ class HitWicket{
            {
              ArrayList randomBall=getRandomMapValue(typeOfBall);
              String ballType=(String)randomBall.get(0);
+             
+             //System.out.println("Ball type:"+ballType);
+
              int ballTypeVal=(int)randomBall.get(1);
              int runScored=0;
              System.out.println("Current Runs: "+curRun);
@@ -155,14 +158,17 @@ class HitWicket{
              System.out.println("Current Ball: "+ballType);
              System.out.println("Possible Shots: ");
              ArrayList shottype=shotsPossible.get(ballType);
+             //System.out.println(shottype);
+            // double maxp=0;
+            // HashMap<Double,Integer> highProb=new HashMap<>();
              for(int j=0;j<shottype.size();j++)
              {
                  String shot=(String)shottype.get(j);
                  int shotVal=runOnShots.get(shot).get(0);
                  runScored=runOnShots.get(shot).get(1);
-                 curRun+=runScored;
                  
                 double shotProb=getProb(shotVal,ballTypeVal);
+                //maxp=Math.max(shotProb,maxp);
                 
                 System.out.println(shot+" - "+shotVal+" - "+shotProb);
                 //System.out.println();
