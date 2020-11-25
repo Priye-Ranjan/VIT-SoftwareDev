@@ -6,15 +6,67 @@ class HitWicket{
     static HashMap<Integer,String> batsman=new HashMap<>();
     static HashMap<String,Integer> typeOfBall=new HashMap<>();
     static HashMap<String,ArrayList<String>> shotsPossible=new HashMap<>();
+    static HashMap<String,ArrayList<Integer>> runOnShots=new HashMap<>();
+
+    int Run=0;
 
     public static void addDummyData()
     {
+        //Dummy Data for Types of Balls
+
         typeOfBall.put("Full Toss",4);
         typeOfBall.put("Yorker",3);
         typeOfBall.put("Out-swinger",3);
         typeOfBall.put("In-swinger",2);
         typeOfBall.put("Bouncer",4);
-        typeOfBall.put("Slower-ball",2);
+        typeOfBall.put("Slower-ball",2);        //Dummy Data for Types of Balls
+
+        
+        //Dummy Data for Run on Shots
+
+        ArrayList<Integer> run=new ArrayList<>();
+        run.add(5);run.add(0);
+        runOnShots.put("Defend",run);
+
+        ArrayList<Integer> run2=new ArrayList<>();
+        run2.add(7);run2.add(1);
+        runOnShots.put("Run",run2);
+
+        ArrayList<Integer> run3=new ArrayList<>();
+        run3.add(6);run3.add(2);
+        runOnShots.put("Run Fast",run3);
+
+        ArrayList<Integer> run4=new ArrayList<>();
+        run4.add(7);run4.add(2);
+        runOnShots.put("Cover Drive",run4);
+
+        ArrayList<Integer> run5=new ArrayList<>();
+        run5.add(5);run5.add(2);
+        runOnShots.put("On Drive",run5);
+
+        ArrayList<Integer> run6=new ArrayList<>();
+        run6.add(6);run6.add(2);
+        runOnShots.put("Straight Drive",run6);
+
+        ArrayList<Integer> run7=new ArrayList<>();
+        run7.add(7);run7.add(4);
+        runOnShots.put("Square Cut",run7);
+
+        ArrayList<Integer> run8=new ArrayList<>();
+        run8.add(8);run8.add(4);
+        runOnShots.put("Pull",run8);
+
+        ArrayList<Integer> run9=new ArrayList<>();
+        run9.add(7);run9.add(6);
+        runOnShots.put("Hook",run9);
+
+        ArrayList<Integer> run10=new ArrayList<>();
+        run10.add(8);run10.add(6);
+        runOnShots.put("Helicopter",run10);         //Dummy Data for Run on Shots
+
+
+
+        //Dummy Data for Shots Possible  Start    
 
         ArrayList<String> l=new ArrayList<>();
         l.add("Defend");l.add("Run");l.add("Run Fast");l.add("Square Cut");l.add("Helicopter");
@@ -40,6 +92,9 @@ class HitWicket{
         l6.add("Defend");l6.add("Run");l6.add("On Drive");l6.add("Pull");l6.add("Helicopter");
         shotsPossible.put("Slower Ball",l6);
 
+        //Dummy Data for Shots Possible  End      
+
+
         bowler.put(1,"Aggressive");
         bowler.put(2,"Aggressive");
         bowler.put(3,"Passive");
@@ -64,7 +119,7 @@ class HitWicket{
         
         return p;
     }
-    
+
     public static void main(String args[])
     {
         Scanner sc=new Scanner(System.in);
@@ -87,12 +142,52 @@ class HitWicket{
            }
             while(choiceBatsman<1 || choiceBatsman >6);
 
-           ArrayList randomBall=getRandomMapValue(typeOfBall);
-           
-           System.out.println(randomBall);
+            int curRun=0;
+           for(int i=0;i<6;i++)
+           {
+             ArrayList randomBall=getRandomMapValue(typeOfBall);
+             String ballType=(String)randomBall.get(0);
+             int ballTypeVal=(int)randomBall.get(1);
+             int runScored=0;
+             System.out.println("Current Runs: "+curRun);
+             System.out.println("Runs on last ball: "+runScored);
+
+             System.out.println("Current Ball: "+ballType);
+             System.out.println("Possible Shots: ");
+             ArrayList shottype=shotsPossible.get(ballType);
+             for(int j=0;j<shottype.size();j++)
+             {
+                 String shot=(String)shottype.get(j);
+                 int shotVal=runOnShots.get(shot).get(0);
+                 runScored=runOnShots.get(shot).get(1);
+                 curRun+=runScored;
+                 
+                double shotProb=getProb(shotVal,ballTypeVal);
+                
+                System.out.println(shot+" - "+shotVal+" - "+shotProb);
+                //System.out.println();
+             }
+             System.out.println();
+           }
         }
     }
 
+    //Probability Calculation
+    public static double getProb(int shotm,int ballm) {
+		double d = 0;
+		d = (((shotm-ballm)*100)/shotm);
+		return d;
+    }
+    
+
+	public static boolean possible(double p) {
+		Random rand = new Random();
+		int num = (int)rand.nextInt(100)+1;
+		if(num>p) {
+			return false;
+		}
+		return true;
+	}
     public static ArrayList getRandomMapValue(HashMap hmap)
     {
         Iterator<Map.Entry<String, Integer>> it = hmap.entrySet().iterator();
